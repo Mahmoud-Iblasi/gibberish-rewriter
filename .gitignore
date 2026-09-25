@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+*.user
+TestResults/
+python/.venv/
+*.egg-info/
+__pycache__/
+*.pyc
+.pytest_cache/
+/dist

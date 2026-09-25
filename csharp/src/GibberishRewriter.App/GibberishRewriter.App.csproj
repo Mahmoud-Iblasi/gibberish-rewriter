@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>GibberishRewriter.App</RootNamespace>
+    <AssemblyName>GibberishRewriter</AssemblyName>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GibberishRewriter.Core\GibberishRewriter.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="GibberishRewriter.App.Tests" />
+  </ItemGroup>
+
+  <!-- shared/ (key names, word list, default config, icons) is copied next to the exe. A single-file publish would
+       otherwise bundle the icons into the exe, where the tray can't open them as files. -->
+  <ItemGroup>
+    <None Include="..\..\..\shared\**\*" LinkBase="shared" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GibberishRewriter.App/GibberishRewriter.App.csproj" />
+    <Project Path="src/GibberishRewriter.Core/GibberishRewriter.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/GibberishRewriter.App.Tests/GibberishRewriter.App.Tests.csproj" />
+    <Project Path="tests/GibberishRewriter.Core.Tests/GibberishRewriter.Core.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,110 @@
+[
+  {
+    "name": "chord fires and swallows CapsLock and the trigger",
+    "events": [ { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "Tab" }, { "up": "Tab" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "swallow", "swallow fire:fixTyped", "swallow", "swallow", "pass" ]
+  },
+  {
+    "name": "trigger auto-repeat is swallowed without firing again",
+    "events": [ { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "Tab" }, { "down": "Tab" }, { "down": "Tab" }, { "up": "Tab" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "swallow", "swallow fire:fixTyped", "swallow", "swallow", "swallow", "swallow", "pass" ]
+  },
+  {
+    "name": "hold keys in any order, right Shift",
+    "events": [ { "down": "CapsLock" }, { "down": "ShiftRight" }, { "down": "Backquote" }, { "up": "Backquote" }, { "up": "ShiftRight" }, { "up": "CapsLock" } ],
+    "expect": [ "swallow", "pass", "swallow fire:fixSelection", "swallow", "pass", "swallow" ]
+  },
+  {
+    "name": "CapsLock tap toggles on release",
+    "events": [ { "down": "CapsLock" }, { "up": "CapsLock" } ],
+    "expect": [ "swallow", "swallow send:CapsLock" ]
+  },
+  {
+    "name": "CapsLock auto-repeat is replayed once",
+    "events": [ { "down": "CapsLock" }, { "down": "CapsLock" }, { "down": "CapsLock" }, { "up": "CapsLock" } ],
+    "expect": [ "swallow", "swallow", "swallow", "swallow send:CapsLock" ]
+  },
+  {
+    "name": "Shift+Tab without CapsLock reaches the app",
+    "events": [ { "down": "ShiftLeft" }, { "down": "Tab" }, { "up": "Tab" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "pass", "pass", "pass" ]
+  },
+  {
+    "name": "Backquote alone types normally",
+    "events": [ { "down": "Backquote" }, { "up": "Backquote" } ],
+    "expect": [ "pass", "pass" ]
+  },
+  {
+    "name": "CapsLock+Tab without Shift doesn't fire and CapsLock still toggles",
+    "events": [ { "down": "CapsLock" }, { "down": "Tab" }, { "up": "Tab" }, { "up": "CapsLock" } ],
+    "expect": [ "swallow", "pass", "pass", "swallow send:CapsLock" ]
+  },
+  {
+    "name": "an extra Ctrl stops the chord",
+    "events": [ { "down": "ControlLeft" }, { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "Tab" }, { "up": "Tab" }, { "up": "CapsLock" }, { "up": "ShiftLeft" }, { "up": "ControlLeft" } ],
+    "expect": [ "pass", "pass", "swallow", "pass", "pass", "swallow send:CapsLock", "pass", "pass" ]
+  },
+  {
+    "name": "a letter pressed while holding the hold keys passes",
+    "events": [ { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "KeyA" }, { "up": "KeyA" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "swallow", "pass", "pass", "swallow send:CapsLock", "pass" ]
+  },
+  {
+    "name": "pressing the trigger again while holding fires again",
+    "events": [ { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "Tab" }, { "up": "Tab" }, { "down": "Tab" }, { "up": "Tab" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "swallow", "swallow fire:fixTyped", "swallow", "swallow fire:fixTyped", "swallow", "swallow", "pass" ]
+  },
+  {
+    "name": "Ctrl+Alt chord sends the mask key",
+    "config": { "hotkeys": { "fixTyped": "Ctrl+Alt+F9", "fixSelection": "Ctrl+Alt+F10" } },
+    "events": [ { "down": "ControlLeft" }, { "down": "AltLeft" }, { "down": "F9" }, { "up": "F9" }, { "up": "AltLeft" }, { "up": "ControlLeft" } ],
+    "expect": [ "pass", "pass", "swallow fire:fixTyped send:0xE8", "swallow", "pass", "pass" ]
+  },
+  {
+    "name": "Win chord sends the mask key",
+    "config": { "hotkeys": { "fixTyped": "Win+F9", "fixSelection": "Win+F10" } },
+    "events": [ { "down": "MetaLeft" }, { "down": "F10" }, { "up": "F10" }, { "up": "MetaLeft" } ],
+    "expect": [ "pass", "swallow fire:fixSelection send:0xE8", "swallow", "pass" ]
+  },
+  {
+    "name": "CapsLock passes when no chord holds it",
+    "config": { "hotkeys": { "fixTyped": "Ctrl+Alt+F9", "fixSelection": "Ctrl+Alt+F10" } },
+    "events": [ { "down": "CapsLock" }, { "up": "CapsLock" } ],
+    "expect": [ "pass", "pass" ]
+  },
+  {
+    "name": "disabled passes every key",
+    "events": [ { "enabled": false }, { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "Tab" }, { "up": "Tab" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "pass", "pass", "pass", "pass", "pass" ]
+  },
+  {
+    "name": "enabled again works again",
+    "events": [ { "enabled": false }, { "enabled": true }, { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "Tab" }, { "up": "Tab" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "swallow", "swallow fire:fixTyped", "swallow", "swallow", "pass" ]
+  },
+  {
+    "name": "both triggers held at once keep their key-ups swallowed",
+    "events": [ { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "Tab" }, { "down": "Backquote" }, { "up": "Tab" }, { "up": "Backquote" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "swallow", "swallow fire:fixTyped", "swallow fire:fixSelection", "swallow", "swallow", "swallow", "pass" ]
+  },
+  {
+    "name": "a reload that keeps the hotkeys keeps a held trigger swallowed",
+    "events": [ { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "Tab" }, { "config": { "maxRunLength": 500 } }, { "up": "Tab" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "swallow", "swallow fire:fixTyped", "swallow", "swallow", "pass" ]
+  },
+  {
+    "name": "missed input forgets a held CapsLock",
+    "events": [ { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "missedInput": { "capsLock": false } }, { "down": "Tab" }, { "up": "Tab" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "swallow", "pass", "pass", "swallow", "pass" ]
+  },
+  {
+    "name": "a reload that changes a hotkey forgets a held trigger",
+    "events": [ { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "Tab" }, { "config": { "hotkeys": { "fixTyped": "Shift+CapsLock+F9" } } }, { "up": "Tab" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "swallow", "swallow fire:fixTyped", "pass", "swallow", "pass" ]
+  },
+  {
+    "name": "a reload that only rewrites a hotkey keeps a held trigger swallowed",
+    "events": [ { "down": "ShiftLeft" }, { "down": "CapsLock" }, { "down": "Tab" }, { "config": { "hotkeys": { "fixTyped": "capslock+shift+tab" } } }, { "up": "Tab" }, { "up": "CapsLock" }, { "up": "ShiftLeft" } ],
+    "expect": [ "pass", "swallow", "swallow fire:fixTyped", "swallow", "swallow", "pass" ]
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "hotkeys": {
+    "fixTyped": "Shift+CapsLock+Tab",
+    "fixSelection": "Shift+CapsLock+Backquote"
+  },
+  "switchLayoutAfterFix": true,
+  "layouts": { "latin": "auto", "arabic": "auto" },
+  "maxRunLength": 1000,
+  "clipboardTimeoutMs": 400,
+  "pasteRestoreDelayMs": 300,
+  "releaseTimeoutMs": 3000
+}

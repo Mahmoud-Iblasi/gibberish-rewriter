@@ -1,0 +1,180 @@
+[
+  {
+    "name": "selected gibberish is replaced and the layout switches",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "the chord again undoes with Ctrl+Z",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" }, { "shortcut": "undo" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "undo switches back to the layout of the original text",
+    "clipboard": "old",
+    "selection": "اثممخ",
+    "events": [ { "chord": "fixSelection" }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "hello" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "latin" }, { "shortcut": "undo" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "an undo can't be undone: the next chord fixes again",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "chord": "fixSelection" }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" }, { "shortcut": "undo" }, { "switchLayout": "latin" }, { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "nothing selected leaves the clipboard alone",
+    "clipboard": "old",
+    "events": [ { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" } ]
+  },
+  {
+    "name": "text without letters restores the clipboard",
+    "clipboard": "old",
+    "selection": "123 !",
+    "events": [ { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "restoreClipboard": "old" } ]
+  },
+  {
+    "name": "text that converts to itself restores the clipboard",
+    "clipboard": "old",
+    "selection": "\u0671",
+    "events": [ { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "restoreClipboard": "old" } ]
+  },
+  {
+    "name": "several lines keep their line breaks",
+    "clipboard": "old",
+    "selection": "اثممخ\nفاثقث",
+    "events": [ { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "hello\nthere" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "a clipboard without text is restored as it was",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "a key typed after the fix stops undo",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "tap": "KeyA" }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" }, { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "Backspace after the fix stops undo",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "tap": "Backspace" }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" }, { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "a mouse click after the fix stops undo",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "mouseDown": true }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" }, { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "another window doesn't undo",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "window": 2 }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" }, { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "console windows never undo",
+    "console": true,
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" }, { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "a typed fix in between stops undo",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "chord": "fixTyped" }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" }, { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "a key typed while the chord keys are still held cancels the selection fix",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection", "during": [ { "tap": "KeyA" } ] }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "a selection fix clears the typing run, even when nothing is selected",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "chord": "fixSelection" }, { "chord": "fixTyped" } ],
+    "expect": [ { "shortcut": "copy" } ]
+  },
+  {
+    "name": "switchLayoutAfterFix off",
+    "config": { "switchLayoutAfterFix": false },
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "shortcut": "undo" } ]
+  },
+  {
+    "name": "an administrator window gets a notification and the clipboard is untouched",
+    "blockedByElevation": true,
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" } ],
+    "expect": [ { "notify": "Can't fix text in an administrator window. Run Gibberish Rewriter as administrator to allow it." } ]
+  },
+  {
+    "name": "a locked clipboard when saving stops before copying",
+    "clipboardLocked": "save",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" } ],
+    "expect": [ { "notify": "Couldn't use the clipboard because another app is holding it. Try again." } ]
+  },
+  {
+    "name": "a locked clipboard when writing restores the saved clipboard and notifies",
+    "clipboardLocked": "set",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "restoreClipboard": "old" }, { "notify": "Couldn't use the clipboard because another app is holding it. Try again." } ]
+  },
+  {
+    "name": "chord keys held too long cancel the selection fix",
+    "releaseTimeout": true,
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" } ],
+    "expect": []
+  },
+  {
+    "name": "an administrator-window attempt ends undo eligibility",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "elevated": true }, { "chord": "fixSelection" }, { "elevated": false }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" }, { "notify": "Can't fix text in an administrator window. Run Gibberish Rewriter as administrator to allow it." }, { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "an administrator-window typed fix also ends undo eligibility",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection" }, { "elevated": true }, { "chord": "fixTyped" }, { "elevated": false }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" }, { "notify": "Can't fix text in an administrator window. Run Gibberish Rewriter as administrator to allow it." }, { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "missed input while the chord keys are still held cancels the selection fix",
+    "clipboard": "old",
+    "selection": "lvpfh",
+    "events": [ { "chord": "fixSelection", "during": [ { "missedInput": { "capsLock": false } } ] }, { "chord": "fixSelection" } ],
+    "expect": [ { "shortcut": "copy" }, { "setClipboard": "مرحبا" }, { "shortcut": "paste" }, { "restoreClipboard": "old" }, { "switchLayout": "arabic" } ]
+  }
+]

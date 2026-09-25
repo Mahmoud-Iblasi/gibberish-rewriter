@@ -1,0 +1,218 @@
+[
+  {
+    "name": "English typed on the Arabic layout is fixed, then undone",
+    "layout": "arabic",
+    "capsLock": false,
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyE" }, { "tap": "KeyL" }, { "tap": "KeyL" }, { "tap": "KeyO" }, { "chord": "fixTyped" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 5 }, { "type": "hello" }, { "switchLayout": "latin" }, { "backspaces": 5 }, { "type": "اثممخ" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "Arabic typed on the English layout is fixed",
+    "layout": "latin",
+    "events": [ { "tap": "KeyL" }, { "tap": "KeyV" }, { "tap": "KeyP" }, { "tap": "KeyF" }, { "tap": "KeyH" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 5 }, { "type": "مرحبا" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "Shift uses the shifted text on both layouts",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH", "shift": true }, { "tap": "KeyI" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "Hi" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "Caps Lock on at startup gives capitals on the English side",
+    "layout": "arabic",
+    "capsLock": true,
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "HI" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "a CapsLock tap while typing is tracked",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "CapsLock" }, { "tap": "KeyI" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "hI" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "a CapsLock press while disabled is still tracked",
+    "layout": "arabic",
+    "events": [ { "enabled": false }, { "tap": "CapsLock" }, { "enabled": true }, { "tap": "KeyH" }, { "tap": "KeyI" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "HI" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "punctuation keys type Arabic letters",
+    "layout": "latin",
+    "events": [ { "tap": "Semicolon" }, { "tap": "KeyD" }, { "tap": "KeyT" }, { "tap": "Space" }, { "tap": "KeyP" }, { "tap": "KeyH" }, { "tap": "KeyG" }, { "tap": "Semicolon" }, { "tap": "Slash", "shift": true }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 9 }, { "type": "كيف حالك؟" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "lam-alef is two characters",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyB" }, { "chord": "fixTyped" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "b" }, { "switchLayout": "latin" }, { "backspaces": 1 }, { "type": "لا" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "a diacritic counts as one character",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyQ", "shift": true }, { "tap": "KeyH" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "Qh" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "digits and spaces are part of the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "tap": "Space" }, { "tap": "Digit1" }, { "tap": "Digit2" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 5 }, { "type": "hi 12" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "Backspace removes the last key",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyE" }, { "tap": "KeyX" }, { "tap": "Backspace" }, { "tap": "KeyL" }, { "tap": "KeyL" }, { "tap": "KeyO" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 5 }, { "type": "hello" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "Backspace on lam-alef leaves lam",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyB" }, { "tap": "Backspace" }, { "tap": "KeyH" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "gh" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "Enter breaks the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "tap": "Enter" }, { "tap": "KeyO" }, { "tap": "KeyK" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "ok" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "an arrow key breaks the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "tap": "ArrowLeft" }, { "tap": "KeyO" }, { "tap": "KeyK" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "ok" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "a mouse click breaks the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "mouseDown": true }, { "tap": "KeyO" }, { "tap": "KeyK" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "ok" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "Ctrl+V breaks the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "down": "ControlLeft" }, { "tap": "KeyV" }, { "up": "ControlLeft" }, { "tap": "KeyO" }, { "tap": "KeyK" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "ok" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "Numpad with Shift types nothing and breaks the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "tap": "Numpad1", "shift": true }, { "tap": "KeyO" }, { "tap": "KeyK" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "ok" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "text injected by other software breaks the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "packet": "x" }, { "tap": "KeyO" }, { "tap": "KeyK" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "ok" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "a different window starts a new run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "window": 2 }, { "tap": "KeyO" }, { "tap": "KeyK" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "ok" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "the chord in another window does nothing",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "window": 2 }, { "chord": "fixTyped" } ],
+    "expect": []
+  },
+  {
+    "name": "a layout change starts a new run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "layout": "latin" }, { "tap": "KeyO" }, { "tap": "KeyK" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "خن" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "a layout switch with nothing typed after it still fixes the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "layout": "latin" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "hi" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "keys on a layout outside the pair are not recorded",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "layout": "other" }, { "tap": "KeyO" }, { "tap": "KeyK" }, { "chord": "fixTyped" } ],
+    "expect": []
+  },
+  {
+    "name": "an empty run does nothing",
+    "events": [ { "chord": "fixTyped" } ],
+    "expect": []
+  },
+  {
+    "name": "typing after a fix starts a new run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyE" }, { "tap": "KeyL" }, { "tap": "KeyL" }, { "tap": "KeyO" }, { "chord": "fixTyped" }, { "tap": "Space" }, { "tap": "KeyL" }, { "tap": "KeyV" }, { "tap": "KeyP" }, { "tap": "KeyF" }, { "tap": "KeyH" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 5 }, { "type": "hello" }, { "switchLayout": "latin" }, { "backspaces": 6 }, { "type": " مرحبا" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "Backspace after a fix clears the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "chord": "fixTyped" }, { "tap": "Backspace" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "hi" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "switchLayoutAfterFix off keeps the layout and still undoes",
+    "config": { "switchLayoutAfterFix": false },
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "chord": "fixTyped" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "hi" }, { "backspaces": 2 }, { "type": "اه" } ]
+  },
+  {
+    "name": "a key typed while the chord keys are still held cancels the fix",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "chord": "fixTyped", "during": [ { "tap": "KeyA" } ] }, { "chord": "fixTyped" } ],
+    "expect": []
+  },
+  {
+    "name": "a chord pressed during the fix is ignored",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "chord": "fixTyped", "during": [ { "chord": "fixSelection" } ] }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "hi" }, { "switchLayout": "latin" }, { "backspaces": 2 }, { "type": "اه" }, { "switchLayout": "arabic" } ]
+  },
+  {
+    "name": "the oldest keys are dropped past maxRunLength",
+    "config": { "maxRunLength": 10 },
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyE" }, { "tap": "KeyL" }, { "tap": "KeyL" }, { "tap": "KeyO" }, { "tap": "Space" }, { "tap": "KeyT" }, { "tap": "KeyH" }, { "tap": "KeyE" }, { "tap": "KeyR" }, { "tap": "KeyE" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 10 }, { "type": "ello there" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "disabling clears the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "enabled": false }, { "enabled": true }, { "chord": "fixTyped" } ],
+    "expect": []
+  },
+  {
+    "name": "an administrator window gets a notification and nothing is typed",
+    "layout": "arabic",
+    "blockedByElevation": true,
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "chord": "fixTyped" } ],
+    "expect": [ { "notify": "Can't fix text in an administrator window. Run Gibberish Rewriter as administrator to allow it." } ]
+  },
+  {
+    "name": "chord keys held too long cancel the fix",
+    "layout": "arabic",
+    "releaseTimeout": true,
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyI" }, { "chord": "fixTyped" } ],
+    "expect": []
+  },
+  {
+    "name": "the platform corrects a drifted Caps Lock state",
+    "layout": "arabic",
+    "capsLock": true,
+    "events": [ { "capsLock": false }, { "tap": "KeyH" }, { "tap": "KeyI" }, { "chord": "fixTyped" } ],
+    "expect": [ { "backspaces": 2 }, { "type": "hi" }, { "switchLayout": "latin" } ]
+  },
+  {
+    "name": "missed input clears the run",
+    "layout": "arabic",
+    "events": [ { "tap": "KeyH" }, { "tap": "KeyE" }, { "missedInput": { "capsLock": false } }, { "chord": "fixTyped" } ],
+    "expect": []
+  }
+]
